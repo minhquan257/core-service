@@ -3,6 +3,8 @@ import { ConfigModule } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
+import { TestProductsModule } from './testproducts/testproducts.module';
+import { TestProduct } from './testproducts/testproduct.entity';
 
 @Module({
   imports: [
@@ -15,10 +17,11 @@ import { AppService } from './app.service';
       port: parseInt(process.env.DB_PORT || '5432', 10),
       username: process.env.DB_USERNAME || 'postgres',
       password: process.env.DB_PASSWORD || '1',
-      database: process.env.DB_DATABASE || 'core_service',
-      entities: [],
+      database: process.env.DB_DATABASE || 'demo',
+      entities: [TestProduct],
       synchronize: true,
     }),
+    TestProductsModule,
   ],
   controllers: [AppController],
   providers: [AppService],
