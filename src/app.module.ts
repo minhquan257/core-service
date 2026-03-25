@@ -6,7 +6,7 @@ import { AppService } from './app.service';
 import { TestProductsModule } from './testproducts/testproducts.module';
 import { TestProduct } from './testproducts/testproduct.entity';
 import { SqliModule } from './sqli/sqli.module';
-import { SafeProduct } from './sqli/safe-product.entity';
+import { SafeCustomer } from './sqli/entities/safe-customer.entity';
 
 @Module({
   imports: [
@@ -20,7 +20,7 @@ import { SafeProduct } from './sqli/safe-product.entity';
       username: process.env.DB_USERNAME || 'postgres',
       password: process.env.DB_PASSWORD || '1',
       database: process.env.DB_DATABASE || 'demo',
-      entities: [TestProduct, SafeProduct],
+      entities: [TestProduct, SafeCustomer],
       synchronize: true,
     }),
     TestProductsModule,

@@ -1,9 +1,16 @@
 /**
  * ⚠️  INTENTIONALLY VULNERABLE — FOR EDUCATIONAL / CTF USE ONLY
  */
-import { Controller, Get, Query } from '@nestjs/common';
-import { ApiTags, ApiOperation, ApiQuery, ApiResponse } from '@nestjs/swagger';
+import { Body, Controller, Get, Post, Query } from '@nestjs/common';
+import {
+  ApiBody,
+  ApiTags,
+  ApiOperation,
+  ApiQuery,
+  ApiResponse,
+} from '@nestjs/swagger';
 import { SqliService } from './sqli.service';
+import { CreateCustomerDto } from './dtos/create-customer.dto';
 
 @ApiTags('sqli-demo')
 @Controller('sqli')
@@ -55,6 +62,33 @@ export class SqliController {
   })
   async timeSqli(@Query('id') id: string) {
     return this.sqliService.timeBased(id);
+  }
+
+  @Post('create')
+  @ApiOperation({
+    summary: '[VULN] SQLi via INSERT — raw string interpolation',
+    description:
+      'Builds INSERT SQL by directly interpolating request body values. ' +
+      'An attacker can break out of the string literal to inject arbitrary SQL. ' +
+      "Attack: customerName = 'Alice'); DELETE FROM customers--'",
+  })
+  @ApiBody({
+    schema: {
+      example: {
+        customerName: 'Alice',
+        contactName: 'Bob',
+        address: '123 Main St',
+        city: 'New York',
+        postalCode: '10001',
+        country: 'US',
+        password: 'secret',
+        username: 'alice01',
+      },
+    },
+  })
+  @ApiResponse({ status: 201, description: 'Inserted row returned.' })
+  async unsafeCreate(@Body() body: Record<string, any>) {
+    return this.sqliService.unsafeCreate(body);
   }
 
   // ─── SAFE COUNTERPARTS ──────────────────────────────────────────────────────
@@ -118,5 +152,23 @@ export class SqliController {
   @ApiResponse({ status: 400, description: 'id is not a valid UUID v4.' })
   async safeTimeQuery(@Query('id') id: string) {
     return this.sqliService.safeTimeBased(id);
+  }
+
+  @Post('safe/create')
+  @ApiOperation({
+    summary: '[SAFE] Parameterised INSERT via TypeORM repository',
+    description:
+      'Uses TypeORM repository.save() which compiles a parameterised INSERT ($1, $2, …). ' +
+      'Input is validated (required fields, length limits) before reaching the database. ' +
+      'Quote-breakout and stacked-query payloads are impossible.',
+  })
+  @ApiBody({ type: CreateCustomerDto })
+  @ApiResponse({
+    status: 201,
+    description: 'Created customer (password excluded).',
+  })
+  @ApiResponse({ status: 400, description: 'Validation failed.' })
+  async safeCreate(@Body() dto: CreateCustomerDto) {
+    return this.sqliService.safeCreate(dto);
   }
 }
