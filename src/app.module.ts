@@ -7,6 +7,7 @@ import { TestProductsModule } from './testproducts/testproducts.module';
 import { TestProduct } from './testproducts/testproduct.entity';
 import { SqliModule } from './sqli/sqli.module';
 import { SafeCustomer } from './sqli/entities/safe-customer.entity';
+import { M5Module } from './m5/m5.module';
 
 @Module({
   imports: [
@@ -25,6 +26,7 @@ import { SafeCustomer } from './sqli/entities/safe-customer.entity';
     }),
     TestProductsModule,
     SqliModule,
+    M5Module,
   ],
   controllers: [AppController],
   providers: [AppService],
