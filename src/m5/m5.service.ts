@@ -30,7 +30,6 @@ export class M5Service {
       return { success: false, message: 'Invalid credentials' };
     }
     const customer = rows[0];
-    // Predictable, unsigned token transmitted over HTTP — interceptable
     const token = `token_${customer.username}_plaintext_${Math.random().toString(36).slice(2, 8)}`;
     TOKEN_STORE[token] = customer.customer_id;
     return {
