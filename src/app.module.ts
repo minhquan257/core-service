@@ -23,6 +23,8 @@ import { M5Module } from './m5/m5.module';
       database: process.env.DB_DATABASE || 'demo',
       entities: [TestProduct, SafeCustomer],
       synchronize: true,
+      ssl:
+        process.env.DB_SSL === 'true' ? { rejectUnauthorized: false } : false,
     }),
     TestProductsModule,
     SqliModule,

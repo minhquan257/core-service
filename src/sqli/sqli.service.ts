@@ -91,8 +91,6 @@ export class SqliService {
     return { ...safeData, phoneNumber: maskingPhoneNumber(phoneNumber) };
   }
 
-  // ─── CREATE ─────────────────────────────────────────────────────────────────
-
   async unsafeCreate(body: Record<string, any>): Promise<any[]> {
     const {
       customerName,
