@@ -93,41 +93,41 @@ export class M5Controller {
   }
 
   // ─── VULN #4 ─────────────────────────────────────────────────────────────
-  @Get('mixed-content')
-  @ApiOperation({
-    summary: '[VULN] Mixed-content response — HTTP assets on a "secure" page',
-    description:
-      'Simulates a page that serves sensitive resources (scripts, iframes, payment widgets) ' +
-      'over plain HTTP even when the parent page is loaded over HTTPS. ' +
-      'A MITM attacker can inject malicious JS by responding to the HTTP asset requests. ' +
-      'Cookie in response also has Secure=false, making it accessible over HTTP.',
-  })
-  @ApiResponse({
-    status: 200,
-    description: 'Mixed-content asset list and insecure cookie.',
-  })
-  getMixedContent() {
-    return this.m5Service.getMixedContentResponse();
-  }
+  // @Get('mixed-content')
+  // @ApiOperation({
+  //   summary: '[VULN] Mixed-content response — HTTP assets on a "secure" page',
+  //   description:
+  //     'Simulates a page that serves sensitive resources (scripts, iframes, payment widgets) ' +
+  //     'over plain HTTP even when the parent page is loaded over HTTPS. ' +
+  //     'A MITM attacker can inject malicious JS by responding to the HTTP asset requests. ' +
+  //     'Cookie in response also has Secure=false, making it accessible over HTTP.',
+  // })
+  // @ApiResponse({
+  //   status: 200,
+  //   description: 'Mixed-content asset list and insecure cookie.',
+  // })
+  // getMixedContent() {
+  //   return this.m5Service.getMixedContentResponse();
+  // }
 
   // ─── VULN #5 ─────────────────────────────────────────────────────────────
-  @Get('downstream-call')
-  @ApiOperation({
-    summary:
-      '[VULN] Server-to-server call over HTTP with disabled TLS verification',
-    description:
-      'Simulates this server calling a downstream service over plain HTTP ' +
-      'and with certificate validation disabled (`rejectUnauthorized: false`). ' +
-      'Any network observer between the two servers can read the API key and ' +
-      'modify the response (MITM).',
-  })
-  @ApiResponse({
-    status: 200,
-    description: 'Shows the insecure downstream call configuration.',
-  })
-  getDownstreamCall() {
-    return this.m5Service.getDownstreamInsecureCallInfo();
-  }
+  // @Get('downstream-call')
+  // @ApiOperation({
+  //   summary:
+  //     '[VULN] Server-to-server call over HTTP with disabled TLS verification',
+  //   description:
+  //     'Simulates this server calling a downstream service over plain HTTP ' +
+  //     'and with certificate validation disabled (`rejectUnauthorized: false`). ' +
+  //     'Any network observer between the two servers can read the API key and ' +
+  //     'modify the response (MITM).',
+  // })
+  // @ApiResponse({
+  //   status: 200,
+  //   description: 'Shows the insecure downstream call configuration.',
+  // })
+  // getDownstreamCall() {
+  //   return this.m5Service.getDownstreamInsecureCallInfo();
+  // }
 
   // ─── SAFE REFERENCE ──────────────────────────────────────────────────────
   @Post('safe-login')
