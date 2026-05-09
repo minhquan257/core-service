@@ -7,7 +7,13 @@ import { TestProductsModule } from './testproducts/testproducts.module';
 import { TestProduct } from './testproducts/testproduct.entity';
 import { SqliModule } from './sqli/sqli.module';
 import { SafeCustomer } from './sqli/entities/safe-customer.entity';
+import { M1Module } from './m1/m1.module';
+import { M2Module } from './m2/m2.module';
 import { M5Module } from './m5/m5.module';
+import { M6Module } from './m6/m6.module';
+import { M7Module } from './m7/m7.module';
+import { M9Module } from './m9/m9.module';
+import { SamplesModule } from './samples/samples.module';
 
 @Module({
   imports: [
@@ -28,7 +34,13 @@ import { M5Module } from './m5/m5.module';
     }),
     TestProductsModule,
     SqliModule,
+    M1Module,
+    M2Module,
     M5Module,
+    M6Module,
+    M7Module,
+    M9Module,
+    SamplesModule,
   ],
   controllers: [AppController],
   providers: [AppService],
